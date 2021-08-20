@@ -9,11 +9,6 @@ namespace CalculateSla.ConsoleApp
         public static void Calculate(DateTime date, List<DayOfWeek> workingDays, int hours, TimeSpan startHour, TimeSpan endHour, TimeSpan OnDutyTimeStart, TimeSpan OnDutyTimeEnd, List<DateTime> holidays)
         {
 
-            var day = new TimeSpan(24, 0, 0);
-            var workHourPerDay = endHour.Subtract(startHour);
-            var workOnDutyPerDays = OnDutyTimeEnd < OnDutyTimeStart ? ((day.Subtract(OnDutyTimeStart)) + OnDutyTimeEnd) : OnDutyTimeEnd.Subtract(OnDutyTimeStart);
-
-            var totalworkperday = workHourPerDay + workOnDutyPerDays;
 
             var totalDays = TimeSpan.FromHours(hours);
 
@@ -32,15 +27,15 @@ namespace CalculateSla.ConsoleApp
 
             delivery = CalcTime(date, new TimeSpan(1, 0, 0), totalDays, delivery, startHour, endHour, OnDutyTimeStart, OnDutyTimeEnd, workingDays);
 
-           
+
             Console.WriteLine("START = " + date);
             Console.WriteLine("ENTREGA = " + delivery);
-            
+
 
             Console.WriteLine("------------------------------------------------\n");
         }
 
-        private static bool calcRange(DateTime slaStart, DateTime delivery, TimeSpan startHour, TimeSpan endHour, TimeSpan OnDutyTimeStart, TimeSpan OnDutyTimeEnd)
+        private static bool CalcRange(DateTime delivery, TimeSpan startHour, TimeSpan endHour, TimeSpan OnDutyTimeStart, TimeSpan OnDutyTimeEnd)
         {
 
             var rangeStartHour = RangeDateStart(delivery, startHour, endHour);
@@ -53,7 +48,7 @@ namespace CalculateSla.ConsoleApp
             return (delivery >= rangeStartHour && delivery < rangeEndtHour) || (delivery >= rangeStartDutyHour && delivery < rangeEndDutyHour);
         }
 
-        public static DateTime RangeDateStart(DateTime currentdate, TimeSpan start, TimeSpan end)
+        private static DateTime RangeDateStart(DateTime currentdate, TimeSpan start, TimeSpan end)
         {
 
             var day = new TimeSpan(24, 0, 0);
@@ -66,7 +61,7 @@ namespace CalculateSla.ConsoleApp
 
         }
 
-        public static DateTime RangeDateEnd(DateTime currentdate, TimeSpan start, TimeSpan end)
+        private static DateTime RangeDateEnd(DateTime currentdate, TimeSpan start, TimeSpan end)
         {
 
             var day = new TimeSpan(24, 0, 0);
@@ -94,7 +89,7 @@ namespace CalculateSla.ConsoleApp
                     continue;
                 }
 
-                if (calcRange(slaStart, delivery, startHour, endHour, OnDutyTimeStart, OnDutyTimeEnd))
+                if (CalcRange(delivery, startHour, endHour, OnDutyTimeStart, OnDutyTimeEnd))
 
                 {
 
