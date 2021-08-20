@@ -6,7 +6,7 @@ namespace CalculateSla.ConsoleApp
 {
     public static class CalculateSlaService
     {
-        public static void Calculate(DateTime date, List<DayOfWeek> workingDays, int hours, TimeSpan startHour, TimeSpan endHour, TimeSpan OnDutyTimeStart, TimeSpan OnDutyTimeEnd, List<DateTime> holidays)
+        public static void CalculateSla(DateTime date, List<DayOfWeek> workingDays, int hours, TimeSpan startHour, TimeSpan endHour, TimeSpan OnDutyTimeStart, TimeSpan OnDutyTimeEnd, List<DateTime> holidays)
         {
 
 
@@ -45,11 +45,18 @@ namespace CalculateSla.ConsoleApp
             var rangeEndDutyHour = RangeDateEnd(delivery, OnDutyTimeStart, OnDutyTimeEnd);
 
 
-            return (delivery >= rangeStartHour && delivery < rangeEndtHour) || (delivery >= rangeStartDutyHour && delivery < rangeEndDutyHour);
+            if (startHour.Equals(TimeSpan.Zero) && endHour.Equals(TimeSpan.Zero))
+            {
+                
+                return true;
+            }
+
+            return (delivery >= rangeStartHour && delivery <= rangeEndtHour) || (delivery >= rangeStartDutyHour && delivery <= rangeEndDutyHour);
         }
 
         private static DateTime RangeDateStart(DateTime currentdate, TimeSpan start, TimeSpan end)
         {
+            
 
             var day = new TimeSpan(24, 0, 0);
 
@@ -63,6 +70,8 @@ namespace CalculateSla.ConsoleApp
 
         private static DateTime RangeDateEnd(DateTime currentdate, TimeSpan start, TimeSpan end)
         {
+
+            
 
             var day = new TimeSpan(24, 0, 0);
 
