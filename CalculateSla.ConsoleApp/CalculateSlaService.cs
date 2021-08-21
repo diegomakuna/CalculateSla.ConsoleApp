@@ -45,13 +45,13 @@ namespace CalculateSla.ConsoleApp
             var rangeEndDutyHour = RangeDateEnd(delivery, OnDutyTimeStart, OnDutyTimeEnd);
 
 
-            if (startHour.Equals(TimeSpan.Zero) && endHour.Equals(TimeSpan.Zero))
+            if (startHour.Equals(TimeSpan.Zero) && endHour.Equals(TimeSpan.Zero) || startHour.Equals(endHour))
             {
                 
                 return true;
             }
 
-            return (delivery >= rangeStartHour && delivery <= rangeEndtHour) || (delivery >= rangeStartDutyHour && delivery <= rangeEndDutyHour);
+            return (delivery >= rangeStartHour && delivery < rangeEndtHour) || (delivery >= rangeStartDutyHour && delivery < rangeEndDutyHour);
         }
 
         private static DateTime RangeDateStart(DateTime currentdate, TimeSpan start, TimeSpan end)
